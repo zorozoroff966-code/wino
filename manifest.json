@@ -1,0 +1,17 @@
+{
+  "name": "zino_10M",
+  "short_name": "zino10M",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#6448ff",
+  "description": "لوحة تنظيم شخصية ذكية لتسجيل المهام والمواعيد والمصاريف.",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%236448ff'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-size='260' fill='white' font-family='Arial'%3EZ%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

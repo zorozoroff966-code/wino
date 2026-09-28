@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /publicUsernames/{usernameId} {
+      allow get: if request.auth != null;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.username is string;
+      allow update: if request.auth != null
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.username is string;
+      allow delete: if false;
+    }
+
+    match /calls/{hostUid} {
+      allow get: if request.auth != null;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.auth.uid == hostUid
+        && request.resource.data.hostUid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['hostUid', 'hostUsername', 'offer', 'answer', 'answerUid', 'status', 'createdAt'])
+        && request.resource.data.hostUsername is string
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.answer == null
+        && request.resource.data.answerUid == null
+        && request.resource.data.offer is map;
+      allow update: if request.auth != null && (
+        (request.auth.uid == hostUid
+          && request.resource.data.hostUid == hostUid
+          && request.resource.data.keys().hasOnly(['hostUid', 'hostUsername', 'offer', 'answer', 'answerUid', 'status', 'createdAt']))
+        || (resource.data.hostUid == hostUid
+          && resource.data.status == 'waiting'
+          && resource.data.answer == null
+          && request.resource.data.keys().hasOnly(['hostUid', 'hostUsername', 'offer', 'answer', 'answerUid', 'status', 'createdAt'])
+          && request.resource.data.hostUid == resource.data.hostUid
+          && request.resource.data.hostUsername == resource.data.hostUsername
+          && request.resource.data.offer == resource.data.offer
+          && request.resource.data.createdAt == resource.data.createdAt
+          && request.resource.data.answerUid == request.auth.uid
+          && request.resource.data.answerUid != hostUid
+          && request.resource.data.answer is map
+          && request.resource.data.status == 'connected')
+      );
+      allow delete: if request.auth != null && request.auth.uid == hostUid;
+    }
+  }
+}

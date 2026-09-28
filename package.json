@@ -1,0 +1,12 @@
+{
+  "name": "social-live-app",
+  "version": "1.0.0",
+  "description": "Real social media prototype with stories, reels, and live feed",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
